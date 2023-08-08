@@ -1,5 +1,9 @@
-import Data.DataPlaning;
+import com.codeborne.selenide.logevents.SelenideLogger;
+import data.DataPlaning;
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.selenide.AllureSelenide;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Keys;
 
@@ -11,7 +15,16 @@ import static com.codeborne.selenide.Selenide.open;
 public class ChangeDateDeliveryTest {
 
 
+    @BeforeAll
+    static void setUpAll() {
 
+        SelenideLogger.addListener("allure", new AllureSelenide());
+    }
+
+    @AfterAll
+    static void tearDownAll() {
+        SelenideLogger.removeListener("allure");
+    }
 
     @Test
     void successfulFormSend() {
@@ -19,8 +32,8 @@ public class ChangeDateDeliveryTest {
         open("http://localhost:9999");
         SelenideElement form = $(".form");
 
-        String planingDate= DataPlaning.generateDate(5,"dd.MM.yyyy");
-        String newPlaningDate= DataPlaning.generateDate(6,"dd.MM.yyyy");
+        String planingDate = DataPlaning.generateDate(5, "dd.MM.yyyy");
+        String newPlaningDate = DataPlaning.generateDate(6, "dd.MM.yyyy");
         form.$("[data-test-id=city] input").setValue(DataPlaning.generateCity());
         $(".menu").click();
         form.$("[data-test-id=date] input").sendKeys(Keys.chord(Keys.SHIFT, Keys.UP), Keys.DELETE);
@@ -37,7 +50,6 @@ public class ChangeDateDeliveryTest {
         $("[data-test-id=replan-notification] .notification__title").shouldBe(visible).shouldHave(exactText("Необходимо подтверждение"));
         $("[data-test-id=replan-notification] .button").click();
         $("[data-test-id=success-notification] .notification__content").shouldBe(visible).shouldHave(exactText("Встреча успешно запланирована на " + newPlaningDate));
-
 
 
     }
