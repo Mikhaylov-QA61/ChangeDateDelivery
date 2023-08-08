@@ -49,7 +49,7 @@ public class ChangeDateDeliveryTest {
         form.$(".button").click();
         $("[data-test-id=replan-notification] .notification__title").shouldBe(visible).shouldHave(exactText("Необходимо подтверждение"));
         $("[data-test-id=replan-notification] .button").click();
-        $("[data-test-id=success-notification] .notification__content").shouldBe(visible).shouldHave(exactText("Встреча успешно запланирована на " + newPlaningDate));
+        $("[data-test-id=success-notification] .notification__content").shouldBe(visible).shouldHave(exactText("Ввстреча успешно запланирована на " + newPlaningDate));
 
 
     }
